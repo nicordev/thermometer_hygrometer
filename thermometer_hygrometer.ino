@@ -13,6 +13,9 @@ LiquidCrystal screen(7, 8, 9, 10, 11, 12);
 static const int DHT_SENSOR_PIN = 2;
 DHT_nonblocking dht_sensor(DHT_SENSOR_PIN, DHT_SENSOR_TYPE);
 
+float temperature;
+float humidity;
+
 /*
  * Poll for a measurement, keeping the state machine alive.  Returns
  * true if a measurement is available.
@@ -34,16 +37,15 @@ static bool measure_environment(float *temperature, float *humidity)
     return (false);
 }
 
-void setup() {
+void setup()
+{
     // set up the LCD's number of columns and rows:
     screen.begin(16, 2);
-    screen.print("Hello world!");
+    screen.print("Hello!");
 }
 
-void loop() {
-    float temperature;
-    float humidity;
-
+void loop()
+{
     /* Measure temperature and humidity.  If the functions returns
      true, then a measurement is available. */
     if (measure_environment(&temperature, &humidity) == true)
@@ -51,9 +53,10 @@ void loop() {
         screen.setCursor(0, 0);
         screen.print("T = ");
         screen.print(temperature, 1);
+        screen.print(" *C");
 
         screen.setCursor(0, 1);
-        screen.print(" *C, H = ");
+        screen.print("H = ");
         screen.print(humidity, 0);
         screen.print(" %");
     }
